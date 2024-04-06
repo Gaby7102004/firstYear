@@ -1,0 +1,461 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2708
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\froman\fcharset0 Times-Roman;\f2\froman\fcharset0 Times-Bold;
+\f3\froman\fcharset0 Times-Italic;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue233;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c93333;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs26 \cf0 \expnd0\expndtw0\kerning0
+EAGAIN
+\f1\fs32 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 Normally, when no input is immediately available, 
+\f0\fs26 read
+\f1\fs32  waits for some input. But if the 
+\f0\fs26 O_NONBLOCK
+\f1\fs32  flag is set for the file (see {\field{\*\fldinst{HYPERLINK "https://www.gnu.org/software/libc/manual/html_node/File-Status-Flags.html"}}{\fldrslt \cf2 \ul \ulc2 File Status Flags}}), 
+\f0\fs26 read
+\f1\fs32  returns immediately without reading any data, and reports this error.\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f2\b \cf0 Compatibility Note:
+\f1\b0  Most versions of BSD Unix use a different error code for this: 
+\f0\fs26 EWOULDBLOCK
+\f1\fs32 . In the GNU C Library, 
+\f0\fs26 EWOULDBLOCK
+\f1\fs32  is an alias for 
+\f0\fs26 EAGAIN
+\f1\fs32 , so it doesn\'92t matter which name you use.\
+On some systems, reading a large amount of data from a character special file can also fail with 
+\f0\fs26 EAGAIN
+\f1\fs32  if the kernel cannot find enough physical memory to lock down the user\'92s pages. This is limited to devices that transfer with direct memory access into the user\'92s memory, which means it does not include terminals, since they always use separate buffers inside the kernel. This problem never happens on GNU/Hurd systems.\
+Any condition that could result in 
+\f0\fs26 EAGAIN
+\f1\fs32  can instead result in a successful 
+\f0\fs26 read
+\f1\fs32  which returns fewer bytes than requested. Calling 
+\f0\fs26 read
+\f1\fs32  again immediately would result in 
+\f0\fs26 EAGAIN
+\f1\fs32 .\
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs26 \cf0 EBADF
+\f1\fs32 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 The 
+\f3\i filedes
+\f1\i0  argument is not a valid file descriptor, or is not open for reading.\
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs26 \cf0 EINTR
+\f1\fs32 \
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f0\fs26 \cf0 read
+\f1\fs32  was interrupted by a signal while it was waiting for input. See {\field{\*\fldinst{HYPERLINK "https://www.gnu.org/software/libc/manual/html_node/Interrupted-Primitives.html"}}{\fldrslt \cf2 \ul \ulc2 Primitives Interrupted by Signals}}. A signal will not necessarily cause 
+\f0\fs26 read
+\f1\fs32  to return 
+\f0\fs26 EINTR
+\f1\fs32 ; it may instead result in a successful 
+\f0\fs26 read
+\f1\fs32  which returns fewer bytes than requested.\
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs26 \cf0 EIO
+\f1\fs32 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 For many devices, and for disk files, this error code indicates a hardware error.\
+
+\f0\fs26 EIO
+\f1\fs32  also occurs when a background process tries to read from the controlling terminal, and the normal action of stopping the process by sending it a 
+\f0\fs26 SIGTTIN
+\f1\fs32  signal isn\'92t working. This might happen if the signal is being blocked or ignored, or because the process group is orphaned. See {\field{\*\fldinst{HYPERLINK "https://www.gnu.org/software/libc/manual/html_node/Job-Control.html"}}{\fldrslt \cf2 \ul \ulc2 Job Control}}, for more information about job control, and {\field{\*\fldinst{HYPERLINK "https://www.gnu.org/software/libc/manual/html_node/Signal-Handling.html"}}{\fldrslt \cf2 \ul \ulc2 Signal Handling}}, for information about signals.\
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs26 \cf0 EINVAL
+\f1\fs32 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 In some systems, when reading from a character or block device, position and size offsets must be aligned to a particular block size. This error indicates that the offsets were not properly aligned.\
+Please note that there is no function named 
+\f0\fs26 read64
+\f1\fs32 . This is not necessary since this function does not directly modify or handle the possibly wide file offset. Since the kernel handles this state internally, the 
+\f0\fs26 read
+\f1\fs32  function can be used for all cases.\
+This function is a cancellation point in multi-threaded programs. This is a problem if the thread allocates some resources (like memory, file descriptors, semaphores or whatever) at the time 
+\f0\fs26 read
+\f1\fs32  is called. If the thread gets canceled these resources stay allocated until the program ends. To avoid this, calls to 
+\f0\fs26 read
+\f1\fs32  should be protected using cancellation handlers.\
+The 
+\f0\fs26 read
+\f1\fs32  function is the underlying primitive for all of the functions that read from streams, such as 
+\f0\fs26 fgetc
+\f1\fs32 .}{\rtf1\ansi\ansicpg1252\cocoartf2708
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 Times-Roman;\f1\froman\fcharset0 Times-Italic;\f2\froman\fcharset0 Times-Bold;
+\f3\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue233;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c93333;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs32 \cf0 \expnd0\expndtw0\kerning0
+Function: 
+\f1\i ssize_t
+\f0\i0  
+\f2\b pread
+\f0\b0  
+\f1\i (int filedes, void *buffer, size_t size, off_t offset)
+\f0\i0 \cf2  \'b6\cf0 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 Preliminary: | MT-Safe | AS-Safe | AC-Safe | See {\field{\*\fldinst{HYPERLINK "https://www.gnu.org/software/libc/manual/html_node/POSIX-Safety-Concepts.html"}}{\fldrslt \cf2 \ul \ulc2 POSIX Safety Concepts}}.\
+The 
+\f3\fs26 pread
+\f0\fs32  function is similar to the 
+\f3\fs26 read
+\f0\fs32  function. The first three arguments are identical, and the return values and error codes also correspond.\
+The difference is the fourth argument and its handling. The data block is not read from the current position of the file descriptor 
+\f3\fs26 filedes
+\f0\fs32 . Instead the data is read from the file starting at position 
+\f1\i offset
+\f0\i0 . The position of the file descriptor itself is not affected by the operation. The value is the same as before the call.\
+When the source file is compiled with 
+\f3\fs26 _FILE_OFFSET_BITS == 64
+\f0\fs32  the 
+\f3\fs26 pread
+\f0\fs32  function is in fact 
+\f3\fs26 pread64
+\f0\fs32  and the type 
+\f3\fs26 off_t
+\f0\fs32  has 64 bits, which makes it possible to handle files up to 2^63 bytes in length.\
+The return value of 
+\f3\fs26 pread
+\f0\fs32  describes the number of bytes read. In the error case it returns 
+\f1\i -1
+\f0\i0  like 
+\f3\fs26 read
+\f0\fs32  does and the error codes are also the same, with these additions:\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 EINVAL
+\f0\fs32 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 The value given for 
+\f1\i offset
+\f0\i0  is negative and therefore illegal.\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 ESPIPE
+\f0\fs32 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 The file descriptor 
+\f1\i filedes
+\f0\i0  is associated with a pipe or a FIFO and this device does not allow positioning of the file pointer.\
+The function is an extension defined in the Unix Single Specification version 2.\
+\pard\pardeftab720\partightenfactor0
+\cf0 Function: 
+\f1\i ssize_t
+\f0\i0  
+\f2\b pread64
+\f0\b0  
+\f1\i (int filedes, void *buffer, size_t size, off64_t offset)
+\f0\i0 \cf2  \'b6\cf0 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 Preliminary: | MT-Safe | AS-Safe | AC-Safe | See {\field{\*\fldinst{HYPERLINK "https://www.gnu.org/software/libc/manual/html_node/POSIX-Safety-Concepts.html"}}{\fldrslt \cf2 \ul \ulc2 POSIX Safety Concepts}}.\
+This function is similar to the 
+\f3\fs26 pread
+\f0\fs32  function. The difference is that the 
+\f1\i offset
+\f0\i0  parameter is of type 
+\f3\fs26 off64_t
+\f0\fs32  instead of 
+\f3\fs26 off_t
+\f0\fs32  which makes it possible on 32 bit machines to address files larger than 2^31 bytes and up to 2^63 bytes. The file descriptor 
+\f3\fs26 filedes
+\f0\fs32  must be opened using 
+\f3\fs26 open64
+\f0\fs32  since otherwise the large offsets possible with 
+\f3\fs26 off64_t
+\f0\fs32  will lead to errors with a descriptor in small file mode.\
+When the source file is compiled with 
+\f3\fs26 _FILE_OFFSET_BITS == 64
+\f0\fs32  on a 32 bit machine this function is actually available under the name 
+\f3\fs26 pread
+\f0\fs32  and so transparently replaces the 32 bit interface.}{\rtf1\ansi\ansicpg1252\cocoartf2708
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 Times-Roman;\f1\froman\fcharset0 Times-Italic;\f2\froman\fcharset0 Times-Bold;
+\f3\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue233;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c93333;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs32 \cf0 \expnd0\expndtw0\kerning0
+Function: 
+\f1\i ssize_t
+\f0\i0  
+\f2\b write
+\f0\b0  
+\f1\i (int filedes, const void *buffer, size_t size)
+\f0\i0 \cf2  \'b6\cf0 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 Preliminary: | MT-Safe | AS-Safe | AC-Safe | See {\field{\*\fldinst{HYPERLINK "https://www.gnu.org/software/libc/manual/html_node/POSIX-Safety-Concepts.html"}}{\fldrslt \cf2 \ul \ulc2 POSIX Safety Concepts}}.\
+The 
+\f3\fs26 write
+\f0\fs32  function writes up to 
+\f1\i size
+\f0\i0  bytes from 
+\f1\i buffer
+\f0\i0  to the file with descriptor 
+\f1\i filedes
+\f0\i0 . The data in 
+\f1\i buffer
+\f0\i0  is not necessarily a character string and a null character is output like any other character.\
+The return value is the number of bytes actually written. This may be 
+\f1\i size
+\f0\i0 , but can always be smaller. Your program should always call 
+\f3\fs26 write
+\f0\fs32  in a loop, iterating until all the data is written.\
+Once 
+\f3\fs26 write
+\f0\fs32  returns, the data is enqueued to be written and can be read back right away, but it is not necessarily written out to permanent storage immediately. You can use 
+\f3\fs26 fsync
+\f0\fs32  when you need to be sure your data has been permanently stored before continuing. (It is more efficient for the system to batch up consecutive writes and do them all at once when convenient. Normally they will always be written to disk within a minute or less.) Modern systems provide another function 
+\f3\fs26 fdatasync
+\f0\fs32  which guarantees integrity only for the file data and is therefore faster. You can use the 
+\f3\fs26 O_FSYNC
+\f0\fs32  open mode to make 
+\f3\fs26 write
+\f0\fs32  always store the data to disk before returning; see {\field{\*\fldinst{HYPERLINK "https://www.gnu.org/software/libc/manual/html_node/Operating-Modes.html"}}{\fldrslt \cf2 \ul \ulc2 I/O Operating Modes}}.\
+In the case of an error, 
+\f3\fs26 write
+\f0\fs32  returns 
+\f1\i -1
+\f0\i0 . The following 
+\f3\fs26 errno
+\f0\fs32  error conditions are defined for this function:}{\rtf1\ansi\ansicpg1252\cocoartf2708
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\froman\fcharset0 Times-Roman;\f2\froman\fcharset0 Times-Bold;
+\f3\froman\fcharset0 Times-Italic;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue233;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c93333;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs26 \cf0 \expnd0\expndtw0\kerning0
+EAGAIN
+\f1\fs32 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 Normally, 
+\f0\fs26 write
+\f1\fs32  blocks until the write operation is complete. But if the 
+\f0\fs26 O_NONBLOCK
+\f1\fs32  flag is set for the file (see {\field{\*\fldinst{HYPERLINK "https://www.gnu.org/software/libc/manual/html_node/Control-Operations.html"}}{\fldrslt \cf2 \ul \ulc2 Control Operations on Files}}), it returns immediately without writing any data and reports this error. An example of a situation that might cause the process to block on output is writing to a terminal device that supports flow control, where output has been suspended by receipt of a STOP character.\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f2\b \cf0 Compatibility Note:
+\f1\b0  Most versions of BSD Unix use a different error code for this: 
+\f0\fs26 EWOULDBLOCK
+\f1\fs32 . In the GNU C Library, 
+\f0\fs26 EWOULDBLOCK
+\f1\fs32  is an alias for 
+\f0\fs26 EAGAIN
+\f1\fs32 , so it doesn\'92t matter which name you use.\
+On some systems, writing a large amount of data from a character special file can also fail with 
+\f0\fs26 EAGAIN
+\f1\fs32  if the kernel cannot find enough physical memory to lock down the user\'92s pages. This is limited to devices that transfer with direct memory access into the user\'92s memory, which means it does not include terminals, since they always use separate buffers inside the kernel. This problem does not arise on GNU/Hurd systems.\
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs26 \cf0 EBADF
+\f1\fs32 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 The 
+\f3\i filedes
+\f1\i0  argument is not a valid file descriptor, or is not open for writing.\
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs26 \cf0 EFBIG
+\f1\fs32 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 The size of the file would become larger than the implementation can support.\
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs26 \cf0 EINTR
+\f1\fs32 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 The 
+\f0\fs26 write
+\f1\fs32  operation was interrupted by a signal while it was blocked waiting for completion. A signal will not necessarily cause 
+\f0\fs26 write
+\f1\fs32  to return 
+\f0\fs26 EINTR
+\f1\fs32 ; it may instead result in a successful 
+\f0\fs26 write
+\f1\fs32  which writes fewer bytes than requested. See {\field{\*\fldinst{HYPERLINK "https://www.gnu.org/software/libc/manual/html_node/Interrupted-Primitives.html"}}{\fldrslt \cf2 \ul \ulc2 Primitives Interrupted by Signals}}.\
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs26 \cf0 EIO
+\f1\fs32 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 For many devices, and for disk files, this error code indicates a hardware error.\
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs26 \cf0 ENOSPC
+\f1\fs32 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 The device containing the file is full.\
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs26 \cf0 EPIPE
+\f1\fs32 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 This error is returned when you try to write to a pipe or FIFO that isn\'92t open for reading by any process. When this happens, a 
+\f0\fs26 SIGPIPE
+\f1\fs32  signal is also sent to the process; see {\field{\*\fldinst{HYPERLINK "https://www.gnu.org/software/libc/manual/html_node/Signal-Handling.html"}}{\fldrslt \cf2 \ul \ulc2 Signal Handling}}.\
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs26 \cf0 EINVAL
+\f1\fs32 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 In some systems, when writing to a character or block device, position and size offsets must be aligned to a particular block size. This error indicates that the offsets were not properly aligned.\
+Unless you have arranged to prevent 
+\f0\fs26 EINTR
+\f1\fs32  failures, you should check 
+\f0\fs26 errno
+\f1\fs32  after each failing call to 
+\f0\fs26 write
+\f1\fs32 , and if the error was 
+\f0\fs26 EINTR
+\f1\fs32 , you should simply repeat the call. See {\field{\*\fldinst{HYPERLINK "https://www.gnu.org/software/libc/manual/html_node/Interrupted-Primitives.html"}}{\fldrslt \cf2 \ul \ulc2 Primitives Interrupted by Signals}}. The easy way to do this is with the macro 
+\f0\fs26 TEMP_FAILURE_RETRY
+\f1\fs32 , as follows:\
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs26 \cf0 nbytes = TEMP_FAILURE_RETRY (write (desc, buffer, count));\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f1\fs32 \cf0 Please note that there is no function named 
+\f0\fs26 write64
+\f1\fs32 . This is not necessary since this function does not directly modify or handle the possibly wide file offset. Since the kernel handles this state internally the 
+\f0\fs26 write
+\f1\fs32  function can be used for all cases.\
+This function is a cancellation point in multi-threaded programs. This is a problem if the thread allocates some resources (like memory, file descriptors, semaphores or whatever) at the time 
+\f0\fs26 write
+\f1\fs32  is called. If the thread gets canceled these resources stay allocated until the program ends. To avoid this, calls to 
+\f0\fs26 write
+\f1\fs32  should be protected using cancellation handlers.\
+The 
+\f0\fs26 write
+\f1\fs32  function is the underlying primitive for all of the functions that write to streams, such as 
+\f0\fs26 fputc
+\f1\fs32 .}{\rtf1\ansi\ansicpg1252\cocoartf2708
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 Times-Roman;\f1\froman\fcharset0 Times-Italic;\f2\froman\fcharset0 Times-Bold;
+\f3\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue233;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c93333;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs32 \cf0 \expnd0\expndtw0\kerning0
+Function: 
+\f1\i ssize_t
+\f0\i0  
+\f2\b pwrite
+\f0\b0  
+\f1\i (int filedes, const void *buffer, size_t size, off_t offset)
+\f0\i0 \cf2  \'b6\cf0 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 Preliminary: | MT-Safe | AS-Safe | AC-Safe | See {\field{\*\fldinst{HYPERLINK "https://www.gnu.org/software/libc/manual/html_node/POSIX-Safety-Concepts.html"}}{\fldrslt \cf2 \ul \ulc2 POSIX Safety Concepts}}.\
+The 
+\f3\fs26 pwrite
+\f0\fs32  function is similar to the 
+\f3\fs26 write
+\f0\fs32  function. The first three arguments are identical, and the return values and error codes also correspond.\
+The difference is the fourth argument and its handling. The data block is not written to the current position of the file descriptor 
+\f3\fs26 filedes
+\f0\fs32 . Instead the data is written to the file starting at position 
+\f1\i offset
+\f0\i0 . The position of the file descriptor itself is not affected by the operation. The value is the same as before the call.\
+However, on Linux, if a file is opened with 
+\f3\fs26 O_APPEND
+\f0\fs32 , 
+\f3\fs26 pwrite
+\f0\fs32  appends data to the end of the file, regardless of the value of 
+\f3\fs26 offset
+\f0\fs32 .\
+When the source file is compiled with 
+\f3\fs26 _FILE_OFFSET_BITS == 64
+\f0\fs32  the 
+\f3\fs26 pwrite
+\f0\fs32  function is in fact 
+\f3\fs26 pwrite64
+\f0\fs32  and the type 
+\f3\fs26 off_t
+\f0\fs32  has 64 bits, which makes it possible to handle files up to 2^63 bytes in length.\
+The return value of 
+\f3\fs26 pwrite
+\f0\fs32  describes the number of written bytes. In the error case it returns 
+\f1\i -1
+\f0\i0  like 
+\f3\fs26 write
+\f0\fs32  does and the error codes are also the same, with these additions:\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 EINVAL
+\f0\fs32 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 The value given for 
+\f1\i offset
+\f0\i0  is negative and therefore illegal.\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 ESPIPE
+\f0\fs32 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 The file descriptor 
+\f1\i filedes
+\f0\i0  is associated with a pipe or a FIFO and this device does not allow positioning of the file pointer.\
+The function is an extension defined in the Unix Single Specification version 2.}{\rtf1\ansi\ansicpg1252\cocoartf2708
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 Times-Roman;\f1\froman\fcharset0 Times-Italic;\f2\froman\fcharset0 Times-Bold;
+\f3\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue233;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c93333;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs32 \cf0 \expnd0\expndtw0\kerning0
+Function: 
+\f1\i ssize_t
+\f0\i0  
+\f2\b pwrite64
+\f0\b0  
+\f1\i (int filedes, const void *buffer, size_t size, off64_t offset)
+\f0\i0 \cf2  \'b6\cf0 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 Preliminary: | MT-Safe | AS-Safe | AC-Safe | See {\field{\*\fldinst{HYPERLINK "https://www.gnu.org/software/libc/manual/html_node/POSIX-Safety-Concepts.html"}}{\fldrslt \cf2 \ul \ulc2 POSIX Safety Concepts}}.\
+This function is similar to the 
+\f3\fs26 pwrite
+\f0\fs32  function. The difference is that the 
+\f1\i offset
+\f0\i0  parameter is of type 
+\f3\fs26 off64_t
+\f0\fs32  instead of 
+\f3\fs26 off_t
+\f0\fs32  which makes it possible on 32 bit machines to address files larger than 2^31 bytes and up to 2^63 bytes. The file descriptor 
+\f3\fs26 filedes
+\f0\fs32  must be opened using 
+\f3\fs26 open64
+\f0\fs32  since otherwise the large offsets possible with 
+\f3\fs26 off64_t
+\f0\fs32  will lead to errors with a descriptor in small file mode.\
+When the source file is compiled using 
+\f3\fs26 _FILE_OFFSET_BITS == 64
+\f0\fs32  on a 32 bit machine this function is actually available under the name 
+\f3\fs26 pwrite
+\f0\fs32  and so transparently replaces the 32 bit interface.\
+}
